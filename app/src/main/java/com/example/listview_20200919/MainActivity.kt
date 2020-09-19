@@ -1,7 +1,8 @@
 package com.example.listview_20200919
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.listview_20200919.adapter.StudentAdapter
 import com.example.listview_20200919.data.Student
 import kotlinx.android.synthetic.main.activity_main.*
@@ -10,7 +11,7 @@ class MainActivity : AppCompatActivity() {
 
     val mStudents = ArrayList<Student>()
 
-    lateinit var mAdapter : StudentAdapter
+    lateinit var mAdapter: StudentAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +31,13 @@ class MainActivity : AppCompatActivity() {
 
         mAdapter = StudentAdapter(this, R.layout.student_list_item, mStudents)
         studentListView.adapter = mAdapter
+
+        studentListView.setOnItemClickListener { parent, view, position, id ->
+            val clicked = mStudents[position]
+
+            Toast.makeText(this, clicked.name, Toast.LENGTH_SHORT).show()
+        }
+
 
     }
 }
