@@ -2,6 +2,7 @@ package com.example.listview_20200919
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.listview_20200919.adapter.StudentAdapter
 import com.example.listview_20200919.data.Student
@@ -39,14 +40,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         studentListView.setOnItemLongClickListener { parent, view, position, id ->
-            val longClicked = mStudents[position]
+            val alertDialog = AlertDialog.Builder(this)
+            alertDialog.setTitle("선택한 사용자를 삭제하겠습니까?")
+            alertDialog.setMessage("확인을 누르면 ${mStudents[position].name} 사용자가 삭제됩니다.")
 
-            Toast.makeText(this, "${longClicked.name} 길게 눌림", Toast.LENGTH_LONG).show()
+            alertDialog.setPositiveButton("확인") { dialog, which ->
+                mStudents.removeAt(position)
+                // 데이터 변경 사항 전달
+                mAdapter.notifyDataSetChanged()
+            }
+
+            alertDialog.setNegativeButton("취소", null)
+
+            alertDialog.show()
 
             // 마지막에 false로 할 경우 클릭도 동시에 실행됨
             // return@setOnItemLongClickListener false
 
-            return@setOnItemLongClickListener false
+            return@setOnItemLongClickListener true
         }
 
     }
